@@ -17,8 +17,7 @@ public class PegState extends AbstractGame implements State{
 		super(BOARD_SIZE, 1);
 		
 		isPeg = new boolean[BOARD_SIZE];
-		for (int i = 0; i < BOARD_SIZE-1; i++)
-			isPeg[i] = true;
+		setStartState();
 	}
 	
 	public void setState(boolean[] pegs) {
@@ -72,19 +71,45 @@ public class PegState extends AbstractGame implements State{
 
 	@Override
 	public void prettyPicture(State st) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(this.toString());
+	}
+	
+	private void setStartState() {
+		for (int i = 0; i < isPeg.length-1; i++) {
+			isPeg[i] = true;
+		}
 	}
 
 	@Override
 	public boolean goalState() {
-		// TODO Auto-generated method stub
+		int count = 0; // how many trues are in the array
+		for (int i = 0; i < isPeg.length; i++) {
+			if (isPeg[i]) {
+				count++;
+			}
+		}
+		if (count == 0) {
+			System.out.println("ERROR, ZERO PEGS");
+		}
+		else if (count == 1) {
+			return true;
+		}
 		return false;
+	}
+	
+	public int hashcode() {
+		String concat = "";
+		for (int i = 0; i < isPeg.length; i++) {
+			if (isPeg[i]) {
+				concat += i;
+			}
+		}
+		return concat.hashCode();
 	}
 
 	@Override
 	public State makeInitialState() {
-		// TODO Auto-generated method stub
+		PegState ret = new PegState();
 		return null;
 	}
 }
