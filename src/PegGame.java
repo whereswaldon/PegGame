@@ -9,6 +9,7 @@ public class PegGame extends AbstractGame<PegState>{
 
 	@Override
 	public void addChildren() {
+		System.out.println("called");
 		//create state we want to move to
 		PegState goalstate = new PegState();
 		
@@ -22,7 +23,7 @@ public class PegGame extends AbstractGame<PegState>{
 				Iterator<PegJumpNode> iter = currentState.getMoves().neighbors(i);
 				while (iter.hasNext()) {
 					node = iter.next();
-					
+					goalstate = currentState.clone();
 					//checks if the move is possible
 					if (((PegState)currentState).moveIsValid(i,node.getJumpTo(),node.getJumped())) {
 						start = i;
@@ -37,6 +38,8 @@ public class PegGame extends AbstractGame<PegState>{
 						temp [jumpOver] = false;
 						goalstate.setState(temp);
 						
+						System.out.println("Child:");
+						prettyPicture(goalstate);
 						//adds the new state
 						if (addNewState(goalstate)){
 							goalstate = new PegState();
@@ -60,6 +63,7 @@ public class PegGame extends AbstractGame<PegState>{
 			System.out.println("ERROR, ZERO PEGS");
 		}
 		else if (count == 1) {
+			System.out.println("Goal");
 			return true;
 		}
 		return false;
@@ -92,7 +96,10 @@ public class PegGame extends AbstractGame<PegState>{
 		PegGame game = new PegGame();
 		PegState.setMoves("PegBoard.txt");
 		game.startGame(new PegState());
-		game.search();
-		game.printSolution();
+		if (game.search())
+			game.printSolution();
+		else {
+			System.out.println("No solution found");
+		}
 	}
 }
