@@ -1,4 +1,8 @@
-
+/**
+ * A data type to represent both the destination of a jump and the location jumped in a PegGraphL
+ * @author christopherwaldon
+ *
+ */
 public class PegJumpNode {
 	private int jumpTo;
 	private int jumped;

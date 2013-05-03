@@ -1,5 +1,11 @@
 import java.util.Iterator;
 
+/**
+ * Plugs the Cracker Barrel Peg game into AbstractGame to search for a solution
+ * @author christopher waldon AND sina tashakkori
+ *
+ */
+
 
 public class PegGame extends AbstractGame<PegState>{
 

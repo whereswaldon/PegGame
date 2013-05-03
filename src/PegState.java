@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * Represents the state of a Cracker Barrel Peg Game
+ * @author christopher waldon AND sina tashakkori
+ *
+ */
 
 public class PegState implements State{
 	private boolean[] isPeg;

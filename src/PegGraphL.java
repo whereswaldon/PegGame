@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 /**
- * Creates a neighbor list for use with graph theory applications
+ * Creates a neighbor list for use with graph theory applications, modified for use with the PegGame
  * @author christopherwaldon
  *
  */
