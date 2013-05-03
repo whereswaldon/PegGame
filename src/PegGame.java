@@ -3,13 +3,13 @@ import java.util.Iterator;
 
 public class PegGame extends AbstractGame<PegState>{
 
-	public PegGame() {
-		super(9000, 1);
+	public PegGame(int searchType) {
+		super(9000, searchType);
 	}
 
 	@Override
 	public void addChildren() {
-		System.out.println("called");
+		//System.out.println("called");
 		//create state we want to move to
 		PegState goalstate = new PegState();
 		
@@ -38,8 +38,8 @@ public class PegGame extends AbstractGame<PegState>{
 						temp [jumpOver] = false;
 						goalstate.setState(temp);
 						
-						System.out.println("Child:");
-						prettyPicture(goalstate);
+						//System.out.println("Child:");
+						//prettyPicture(goalstate);
 						//adds the new state
 						if (addNewState(goalstate)){
 							goalstate = new PegState();
@@ -63,7 +63,7 @@ public class PegGame extends AbstractGame<PegState>{
 			System.out.println("ERROR, ZERO PEGS");
 		}
 		else if (count == 1) {
-			System.out.println("Goal");
+			System.out.println("Path to Goal:");
 			return true;
 		}
 		return false;
@@ -93,7 +93,7 @@ public class PegGame extends AbstractGame<PegState>{
         }
 
 	public static void main(String[] args) {
-		PegGame game = new PegGame();
+		PegGame game = new PegGame(BFS);
 		PegState.setMoves("PegBoard.txt");
 		game.startGame(new PegState());
 		if (game.search())
@@ -101,5 +101,6 @@ public class PegGame extends AbstractGame<PegState>{
 		else {
 			System.out.println("No solution found");
 		}
+		game.printStats();
 	}
 }

@@ -34,7 +34,9 @@ public class PegState implements State{
 	}
 	
 	public void setState(boolean[] pegs) {
-		isPeg = pegs;
+		for (int i = 0; i < pegs.length; i++) {
+			isPeg[i] = pegs[i];
+		}
 	}
 	
 	public boolean[] getState() {
@@ -96,7 +98,24 @@ public class PegState implements State{
 		return false;
 	}
 	
-	public int hashcode() {
+	public boolean equals(Object o) {
+		if (o instanceof PegState) {
+			PegState compareTo = (PegState) o;
+			
+			for (int i = 0; i < isPeg.length; i++) {
+				if (isPeg[i] != compareTo.getState()[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
+	
+	}
+	
+	public int hashCode() {
 		String concat = "";
 		for (int i = 0; i < isPeg.length; i++) {
 			if (isPeg[i]) {
