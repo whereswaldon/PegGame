@@ -1,12 +1,27 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 
 
-public class PegState extends AbstractGame implements State{
+public class PegState implements State{
 	private boolean[] isPeg;
 	private static PegGraphL moves;
+	/**
+	 * @return the moves
+	 */
+	public static PegGraphL getMoves() {
+		return moves;
+	}
+
+	/**
+	 * @param moves the moves to set
+	 */
+	public static void setMoves(PegGraphL moves) {
+		PegState.moves = moves;
+	}
+
 	private static final int BOARD_SIZE = 15;
 	
 	/**
@@ -14,8 +29,6 @@ public class PegState extends AbstractGame implements State{
 	 * @param fileName
 	 */
 	public PegState() {
-		super(BOARD_SIZE, 1);
-		
 		isPeg = new boolean[BOARD_SIZE];
 		setStartState();
 	}
@@ -44,13 +57,13 @@ public class PegState extends AbstractGame implements State{
 	public String toString() {
 		return moves.toString() + "\n\n" + Arrays.toString(isPeg);
 	}
-	public static void main(String[] args) {
-		PegState.setMoves("PegBoard.txt");
-		PegState state = new PegState();
-		System.out.println(state);
-	}
+	
+//	public static void main(String[] args) {
+//		PegState.setMoves("PegBoard.txt");
+//		PegState state = new PegState();
+//		System.out.println(state);
+//	}
 
-	@Override
 	public void copy(State anotherState) {
 		if (anotherState instanceof PegState) {
 			this.setState( ((PegState) anotherState).getState());
@@ -63,36 +76,22 @@ public class PegState extends AbstractGame implements State{
 		return copy;
 	}
 
-	@Override
-	public void addChildren() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void prettyPicture(State st) {
-		System.out.println(this.toString());
-	}
-	
 	private void setStartState() {
 		for (int i = 0; i < isPeg.length-1; i++) {
 			isPeg[i] = true;
 		}
 	}
-
-	@Override
-	public boolean goalState() {
-		int count = 0; // how many trues are in the array
-		for (int i = 0; i < isPeg.length; i++) {
-			if (isPeg[i]) {
-				count++;
+	
+	public boolean moveIsValid(int source, int destination, int between) {
+		if (isPeg[source] && !isPeg[destination] && isPeg[between]) {
+			Iterator<PegJumpNode> iter = moves.neighbors(source);
+			PegJumpNode node;
+			while (iter.hasNext()) {
+				node = (PegJumpNode) iter.next();
+				if (node.getJumped() == between && node.getJumpTo() == destination) {
+					return true;
+				}
 			}
-		}
-		if (count == 0) {
-			System.out.println("ERROR, ZERO PEGS");
-		}
-		else if (count == 1) {
-			return true;
 		}
 		return false;
 	}
@@ -105,11 +104,5 @@ public class PegState extends AbstractGame implements State{
 			}
 		}
 		return concat.hashCode();
-	}
-
-	@Override
-	public State makeInitialState() {
-		PegState ret = new PegState();
-		return null;
 	}
 }
